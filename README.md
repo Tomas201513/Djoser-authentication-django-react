@@ -1,0 +1,1 @@
+# Djoser-authentication-django-react
