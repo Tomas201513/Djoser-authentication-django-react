@@ -1,31 +1,22 @@
-// import React from "react";
-// import { Outlet } from "react-router-dom";
-// import Header from "../components/elements/Header";
-// import Sidebar from "../components/elements/Sidebar";
-
-// const Dashboard = () => {
-//   return (
-//     <>
-//       <main className="flex min-h-screen bg-gray-100 min-w-screen">
-//         <Sidebar />
-//         <section className="flex-1">
-//           <Header />
-//           <section>
-//             <Outlet />
-//           </section>
-//         </section>
-//       </main>
-//     </>
-//   );
-// };
-
-// export default Dashboard;
 import React from 'react'
+import IconButton from "@mui/material/IconButton";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useContext } from "react";
+
+import AuthContext from "../context/AuthContext";
+
+
 
 function Dashboard() {
+  const { user, logoutUser } = useContext(AuthContext);
+
   return (
-    <div>tomDashboard</div>
-  )
+    <div>
+      <IconButton>
+        <LogoutIcon onClick={logoutUser} />
+      </IconButton>{" "}
+    </div>
+  );
 }
 
 export default Dashboard

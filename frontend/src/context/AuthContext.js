@@ -1,96 +1,92 @@
-import axios from "axios";
-import jwt_decode from "jwt-decode";
-import { useLocation, useNavigate } from "react-router-dom";
-
 import { createContext, useState, useEffect } from "react";
+import jwt_decode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
 export default AuthContext;
 
 export const AuthProvider = ({ children }) => {
-  const location = useLocation();
-
-  let [loading, setLoading] = useState(true);
-  let [authTokens, setAuthTokens] = useState(() =>
+  const [authTokens, setAuthTokens] = useState(() =>
     localStorage.getItem("authTokens")
       ? JSON.parse(localStorage.getItem("authTokens"))
       : null
   );
-
-  let [user, setUser] = useState(() =>
+  const [user, setUser] = useState(() =>
     localStorage.getItem("authTokens")
       ? jwt_decode(localStorage.getItem("authTokens"))
       : null
   );
+  const [loading, setLoading] = useState(true);
 
-  const navigate = useNavigate();
+  const history = useNavigate();
 
-  let loginUser = async (e) => {
-    e.preventDefault();
-    try {
-      let response = await axios.post("http://127.0.0.1:8000/auth/jwt/create", {
-        email: e.target[0].value,
-        password: e.target[1].value,
-      });
+  const loginUser = async (email, password) => {
+    const response = await fetch("http://127.0.0.1:8000/auth/jwt/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+    const data = await response.json();
 
-      if (response.status === 200) {
-        setAuthTokens(response.data);
-        // console.log(response.data.access);
-        setUser(jwt_decode(response.data.access));
-        localStorage.setItem("authTokens", JSON.stringify(response.data));
-        navigate("/");
-      } else {
-        console.error(response.data.error);
-      }
-    } catch (error) {
-      console.error(error);
+    if (response.status === 200) {
+      setAuthTokens(data);
+      setUser(jwt_decode(data.access));
+      localStorage.setItem("authTokens", JSON.stringify(data));
+      history("/");
+    } else {
+      alert("Something went wrong!");
+    }
+  }; 
+
+  const registerUser = async (username, email, password, re_password) => {
+    const response = await fetch("http://127.0.0.1:8000/auth/users/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        email,
+        password,
+        re_password,
+      }),
+    });
+    if (response.status === 201) {
+      history("/login");
+    } else {
+      alert("Something went wrong!");
     }
   };
 
-  let logoutUser = (parent) => {
-    const publicRoutes = ["login", "register", "activate", "password"];
-    const route = location.pathname.split("/");
+  const logoutUser = () => {
+    setAuthTokens(null);
+    setUser(null);
+    localStorage.removeItem("authTokens");
+    history("/login");
+  };
 
-    if (!publicRoutes.includes(route[1])) {
-      setAuthTokens(null);
-      setUser(null);
-      localStorage.removeItem("authTokens");
-
-      return navigate("/login");
-    }
-    if (parent) {
-      setAuthTokens(null);
-      setUser(null);
-      localStorage.removeItem("authTokens");
-      navigate("/login");
-    }
+  const contextData = {
+    user,
+    setUser,
+    authTokens,
+    setAuthTokens,
+    registerUser,
+    loginUser,
+    logoutUser,
   };
 
   useEffect(() => {
-    try {
-      if (authTokens) {
-        console.log(authTokens.refresh);
-        setUser(jwt_decode(authTokens.refresh));
-
-        console.log("Userrrrrrrrrrrrrrrrrrrr", user);
-      } else {
-        logoutUser();
-      }
-      setLoading(false);
-    } catch (error) {
-      console.error("Errorrrrrrrrrrrrrrrrrrrrrrrrrrr", error);
+    if (authTokens) {
+      setUser(jwt_decode(authTokens.access));
     }
+    setLoading(false);
   }, [authTokens, loading]);
-
-  let contextData = {
-    user: user,
-    authTokens: authTokens,
-    setUser: setUser,
-    setAuthTokens: setAuthTokens,
-    loginUser: loginUser,
-    logoutUser: logoutUser,
-  };
 
   return (
     <AuthContext.Provider value={contextData}>

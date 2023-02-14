@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Card from "./pages/Card";
 import Dashboard from "./pages/Dashboard";
-import Services from "./components/Services";
+// import Services from "./components/Services";
 import Activate from "./components/Activate";
 import Error404 from "./components/Error404";
 import PasswordReset from "./components/PasswordReset";
@@ -22,11 +21,11 @@ const App = () => {
               path="password/reset/confirm/:uid/:token"
               element={<ConfirmPassword />}
             />
-            <Route path="/login" component={Authform} element={<Card />} />
-            <Route path="/signup" component={SignUp} element={<Card />} />
+            <Route path="/login" component={Authform} element={<Authform />} />
+            <Route path="/signup" component={SignUp} element={<SignUp />} />
             <Route path="passwordReset" element={<PasswordReset />} />
             <Route path="/" element={<Dashboard />}>
-              <Route path="services" element={<Services />} />
+              {/* <Route path="services" element={<Services />} /> */}
             </Route>
           </Routes>
         </AuthProvider>

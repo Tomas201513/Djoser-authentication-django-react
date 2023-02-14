@@ -31,20 +31,21 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignUp() {
+export default function SignUp(props) {
   // const [username, setUsername] = useState("");
   // const [password, setPassword] = useState("");
   // const [password2, setPassword2] = useState("");
   // const { registerUser } = useContext(AuthContext);
 
   // const handleSubmit = async e => {
-  //   e.preventDefault();
+  //   e.preventDefault();`
   //   registerUser(username, password, password2);
   // };
+  const [authform, setAuthForm] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const [userForm, setUserForm] = useState({
-    user_name: "",
+    username: "",
     email: "",
     password: "",
     re_password: "",
@@ -61,14 +62,14 @@ export default function SignUp() {
     const body = JSON.stringify(userForm);
 
     try {
-      setIsLoading(true);
+      setIsLoading(true); 
       const res = await axios.post(
         "http://127.0.0.1:8000/auth/users/",
         body,
         config
       );
       setUserForm({
-        user_name: "",
+        username: "",
         email: "",
         password: "",
         re_password: "",
@@ -124,19 +125,19 @@ export default function SignUp() {
                 <Grid item xs={12} sm={12}>
                   <TextField
                     autoComplete="username"
-                    name="username"
-                    value={userForm.user_name}
+                    name="Username"
+                    value={userForm.username}
                     required
                     fullWidth
                     id="username"
                     label="username"
                     autoFocus
                     onChange={(e) =>
-                      setUserForm({ ...userForm, user_name: e.target.value })
+                      setUserForm({ ...userForm, username: e.target.value })
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} >
                   <TextField
                     required
                     fullWidth
@@ -155,8 +156,9 @@ export default function SignUp() {
                     required
                     fullWidth
                     id="password"
-                    label="password"
+                    label="Password"
                     name="password"
+                    type="password"
                     value={userForm.password}
                     autoComplete="password"
                     onChange={(e) =>
@@ -216,3 +218,5 @@ export default function SignUp() {
     </>
   );
 }
+
+

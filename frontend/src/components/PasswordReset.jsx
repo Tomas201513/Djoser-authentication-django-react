@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-// import Input from "./elements/Input";
+import { Box, TextField, Typography } from "@mui/material";
+import Button from "@mui/material/Button";
 
 const PasswordReset = () => {
   const [email, setEmail] = useState("");
@@ -53,44 +54,74 @@ const PasswordReset = () => {
 
   return (
     <>
-      <div className="relative mt-12">
-        <img
-          src={require("../assets/insalogo.jpg")}
-          className="rounded-md w-1/6 mx-auto"
-          alt="Insa Logo"
-        />
-      </div>
-      <div class="w-auto text-center bg-white rounded-lg  shadow-sm sm:p-2 dark:bg-gray-100 dark:border-gray-200 animate__animated animate__zoomIn">
-        <h5 class="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
-          Reset Your Password
-        </h5>
-        <p class=" text-base text-gray-500 sm:text-lg dark:text-gray-400">
-          Enter your email we will send you reset password
-        </p>
-        <div class="justify-center items-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
-          <form onSubmit={handleSubmit}>
-            {/* <Input
-              type="email"
-              name="email"
-              placeholder="Email Address"
-              value={email}
-              onChange={handleChange}
-              error={errors.email}
-            /> */}
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="bg-transparent hover:bg-[#8b5781] text-gray-700 font-semibold hover:text-white py-2 px-4 border border-gray-900 hover:border-transparent rounded"
-              >
-                {isSubmitting ? "Sending email..." : "Reset"}
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+      <Box
+        sx={{
+          marginTop: 35,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <form onSubmit={handleSubmit}>
+          <Typography sx={{ fontSize: 30 }}> Reset Your Password</Typography>
+          <Typography>
+            Enter your email we will send you reset password{" "}
+          </Typography>
+          <TextField
+            sx={{
+              marginTop: 5,
+            }}
+            required
+            fullWidth
+            id="email"
+            label="email"
+            name="email"
+            type="email"
+            autoComplete="password"
+            value={email}
+            error={errors.email}
+            onChange={handleChange}
+          />
+          <Button
+            disabled={isSubmitting}
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            {isSubmitting ? "Sending email..." : "Reset"}
+          </Button>
+        </form>
+      </Box>
     </>
   );
 };
 
 export default PasswordReset;
+
+// <h5 >
+//       Reset Your Password
+//     </h5>
+//     <p >
+//       Enter your email we will send you reset password
+//     </p>
+//     <div >
+//       <form onSubmit={handleSubmit}>
+//         <input
+//           type="email"
+//           name="email"
+//           placeholder="Email Address"
+//           value={email}
+//           onChange={handleChange}
+//           error={errors.email}
+//         />
+//         <div>
+//           <button
+//             type="submit"
+//             disabled={isSubmitting}
+//           >
+//             {isSubmitting ? "Sending email..." : "Reset"}
+//           </button>
+//         </div>
+//       </form>
+//     </div>
