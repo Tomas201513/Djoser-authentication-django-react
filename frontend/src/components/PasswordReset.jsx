@@ -17,7 +17,7 @@ const PasswordReset = () => {
     if (isSubmitting) {
       if (Object.keys(errors).length === 0) {
         axios
-          .post("http://127.0.0.1:9005/auth/users/reset_password/", {
+          .post("http://127.0.0.1:8000/auth/users/reset_password/", {
             email,
           })
           .then((res) => {

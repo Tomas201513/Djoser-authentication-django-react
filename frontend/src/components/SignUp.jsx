@@ -32,8 +32,6 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
-
-
   // const [username, setUsername] = useState("");
   // const [password, setPassword] = useState("");
   // const [password2, setPassword2] = useState("");
@@ -43,7 +41,7 @@ export default function SignUp() {
   //   e.preventDefault();
   //   registerUser(username, password, password2);
   // };
-const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const [userForm, setUserForm] = useState({
     user_name: "",
@@ -65,7 +63,7 @@ const [isLoading, setIsLoading] = useState(false);
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://127.0.0.1:9005/auth/users/",
+        "http://127.0.0.1:8000/auth/users/",
         body,
         config
       );

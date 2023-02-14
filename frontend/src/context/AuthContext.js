@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
   let loginUser = async (e) => {
     e.preventDefault();
     try {
-      let response = await axios.post("http://127.0.0.1:9005/auth/jwt/create", {
+      let response = await axios.post("http://127.0.0.1:8000/auth/jwt/create", {
         email: e.target[0].value,
         password: e.target[1].value,
       });
