@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
 import { useNavigate } from "react-router";
-
+import {Box,Typography,TextField,Button} from '@mui/material'
 
 const ConfirmPassword = () => {
   const navigate = useNavigate();
@@ -49,41 +49,63 @@ const ConfirmPassword = () => {
 
   return (
     <>
-      <div className="relative mt-12">
-        <img
-          // src={require("../assets/insalogo.jpg")}
-          alt="Insa Logo"
-        />
-      </div>
-      <div >
-        <h5 >
-          Reset Your Password
-        </h5>
-        <div >
-          <form onSubmit={resetPassword}>
-            <input
-              type="password"
-              placeholder="New Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-            <button
-              type="submit"
-              disabled={isLoading}
-            >
-              {isLoading ? "Loading..." : "Reset Password"}
-            </button>
-          </form>
-        </div>
-      </div>
+      <form onSubmit={resetPassword}>
+        <Box
+          sx={{
+            marginTop: 35,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography sx={{ fontSize: 30 }}> Password Reset</Typography>
+
+          <TextField
+            sx={{
+              marginTop: 5,
+            }}
+            required
+            // fullWidth
+            id="password"
+            label="New password"
+            name="password"
+            type="password"
+            autoComplete="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <TextField
+            sx={{
+              marginTop: 5,
+            }}
+            required
+            // fullWidth
+            id="password"
+            label="Confirm password"
+            name="password"
+            type="password"
+            autoComplete="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <Button
+            disabled={isLoading}
+            type="submit"
+            // fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            {isLoading ? "Wait" : "Reset Password"}
+          </Button>
+        </Box>
+      </form>
     </>
   );
 };
 
 export default ConfirmPassword;
+
+
+
+
+

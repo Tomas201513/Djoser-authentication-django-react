@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography, Link } from "@mui/material";
 import Button from "@mui/material/Button";
 
 const PasswordReset = () => {
@@ -13,6 +13,8 @@ const PasswordReset = () => {
     setErrors(validate(email));
     setIsSubmitting(true);
   };
+
+
 
   useEffect(() => {
     if (isSubmitting) {
@@ -82,6 +84,7 @@ const PasswordReset = () => {
             error={errors.email}
             onChange={handleChange}
           />
+
           <Button
             disabled={isSubmitting}
             type="submit"
@@ -91,6 +94,9 @@ const PasswordReset = () => {
           >
             {isSubmitting ? "Sending email..." : "Reset"}
           </Button>
+          <Link href="/login" variant="body2">
+            Back To LogIn{" "}
+          </Link>
         </form>
       </Box>
     </>
@@ -99,29 +105,3 @@ const PasswordReset = () => {
 
 export default PasswordReset;
 
-// <h5 >
-//       Reset Your Password
-//     </h5>
-//     <p >
-//       Enter your email we will send you reset password
-//     </p>
-//     <div >
-//       <form onSubmit={handleSubmit}>
-//         <input
-//           type="email"
-//           name="email"
-//           placeholder="Email Address"
-//           value={email}
-//           onChange={handleChange}
-//           error={errors.email}
-//         />
-//         <div>
-//           <button
-//             type="submit"
-//             disabled={isSubmitting}
-//           >
-//             {isSubmitting ? "Sending email..." : "Reset"}
-//           </button>
-//         </div>
-//       </form>
-//     </div>

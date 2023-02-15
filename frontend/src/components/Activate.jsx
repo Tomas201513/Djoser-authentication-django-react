@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Typography, Box, Button, } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { Container } from "@mui/system";
 // import { MdOutlineVerified } from "react-icons/md";
 // import { ImSpinner3 } from "react-icons/im";
 
@@ -38,38 +41,44 @@ const Activate = () => {
   };
   return (
     <>
-      <div>
-        <img
-          // src={require("../assets/insalogo.jpg")}
-          alt="Insa Logo"
-        />
-      </div>
-      <div >
-        <h5 >
-          Activate Your Account
-        </h5>
-        <p >
-          Stay up to date and move w`ork forward with INSA Service
-        </p>
-        <div >
-          <button
-            onClick={activeClick}
+      <Container component="main" maxWidth="xs">
+        <Box
+          sx={{
+            marginTop: 35,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography sx={{ fontSize: 30 }}> Activate Your Account</Typography>
+          <Typography>Stay up to date with Lamba Service </Typography>
+
+          <Container
+            maxWidth="sm"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
-            {isLoading ? (<></>
-              // <ImSpinner3 className="animate-spin h-6 w-6"></ImSpinner3>
-            ) : (<></>
-              // <MdOutlineVerified></MdOutlineVerified>
-            )}
-            <div >
-              <div >
-                {isLoading ? "Activating..." : "Activate Now"}
-              </div>
-            </div>
-          </button>
-        </div>
-      </div>
+            <Button
+              color="secondary"
+              onClick={activeClick}
+              disabled={isLoading}
+              type="submit"
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              {isLoading ? "Sending email..." : "Activate"}
+            </Button>
+          </Container>
+        </Box>
+      </Container>
     </>
   );
 };
 
 export default Activate;
+
+
+
