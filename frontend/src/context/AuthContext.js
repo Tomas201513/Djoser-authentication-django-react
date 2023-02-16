@@ -2,12 +2,12 @@ import { createContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
-const AuthContext = createContext();
+const AuthContext = createContext({});
 
 export default AuthContext;
 
 export const AuthProvider = ({ children }) => {
-  const [authTokens, setAuthTokens] = useState(() =>
+   const [authTokens, setAuthTokens] = useState(() =>
     localStorage.getItem("authTokens")
       ? JSON.parse(localStorage.getItem("authTokens"))
       : null
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       alert("Something went wrong!");
     }
-  }; 
+  };
 
   const registerUser = async (username, email, password, re_password) => {
     const response = await fetch("http://127.0.0.1:8000/auth/users/", {
@@ -90,7 +90,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={contextData}>
-      {loading ? null : children}
+      {children}
     </AuthContext.Provider>
   );
 };

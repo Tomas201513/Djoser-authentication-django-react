@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {  Routes, Route, Navigate, Outlet } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 // import Services from "./components/Services";
 import Activate from "./components/Activate";
@@ -10,6 +10,7 @@ import SignUp from "./components/SignUp";
 import Authform from "./components/Authform";
 import { SnackbarProvider } from "notistack";
 
+import PrivateRoute from "./utils/PrivateRoute";
 const App = () => {
   return (
     <>
@@ -20,7 +21,6 @@ const App = () => {
           horizontal: "right",
         }}
       >
-        <BrowserRouter>
           <AuthProvider>
             <Routes>
               <Route path="*" element={<Error404 />} />
@@ -36,12 +36,16 @@ const App = () => {
               />
               <Route path="/signup" component={SignUp} element={<SignUp />} />
               <Route path="passwordReset" element={<PasswordReset />} />
-              <Route path="/" element={<Dashboard />}>
-                {/* <Route path="services" element={<Services />} /> */}
+
+              <Route path="/app" element={<PrivateRoute />}>
+                {/* <Route index element={<Navigate to="/app" />} /> */}
+                <Route path="dashboard" element={<Outlet />}>
+                  <Route path="ola" element={<Dashboard />} />
+                  </Route>
               </Route>
+     
             </Routes>
           </AuthProvider>
-        </BrowserRouter>
       </SnackbarProvider>
     </>
   );
