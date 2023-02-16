@@ -9,16 +9,22 @@ import { AuthProvider } from "./context/AuthContext";
 import SignUp from "./components/SignUp";
 import Authform from "./components/Authform";
 import { SnackbarProvider } from "notistack";
+<<<<<<< HEAD
 
 import PrivateRoute from "./utils/PrivateRoute";
+=======
+import PrivateRoute from "./utils/PrivateRoute";
+import { CssBaseline } from "@mui/material";
+>>>>>>> 9efaf66b95111b182e2fa3cd0974f22fdfd05349
 const App = () => {
   return (
     <>
+      <CssBaseline/>
       <SnackbarProvider
         maxSnack={3}
         anchorOrigin={{
           vertical: "top",
-          horizontal: "right",
+          horizontal: "center",
         }}
       >
           <AuthProvider>
@@ -36,6 +42,7 @@ const App = () => {
               />
               <Route path="/signup" component={SignUp} element={<SignUp />} />
               <Route path="passwordReset" element={<PasswordReset />} />
+<<<<<<< HEAD
 
               <Route path="/app" element={<PrivateRoute />}>
                 {/* <Route index element={<Navigate to="/app" />} /> */}
@@ -44,6 +51,9 @@ const App = () => {
                   </Route>
               </Route>
      
+=======
+              <Route path="/" element={<Dashboard />} />
+>>>>>>> 9efaf66b95111b182e2fa3cd0974f22fdfd05349
             </Routes>
           </AuthProvider>
       </SnackbarProvider>

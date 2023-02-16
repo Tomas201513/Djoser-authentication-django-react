@@ -2,16 +2,15 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Typography, Box, Button, } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
+// import { LoadingButton } from "@mui/lab";
 import { Container } from "@mui/system";
-// import { MdOutlineVerified } from "react-icons/md";
-// import { ImSpinner3 } from "react-icons/im";
+
 
 const Activate = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { uid, token } = useParams();
   const navigate = useNavigate();
-
+   
   const activeClick = async (e) => {
     e.preventDefault();
 
@@ -68,8 +67,9 @@ const Activate = () => {
               type="submit"
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+             
             >
-              {isLoading ? "Sending email..." : "Activate"}
+              {isLoading ? "Activating..." : "Activate"}
             </Button>
           </Container>
         </Box>
