@@ -21,8 +21,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import IconButton from "@mui/material/IconButton";
 import { useSnackbar } from "notistack";
 import { SocialIcon } from "react-social-icons";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { LoadingButton } from "@mui/lab";
 function Copyright(props) {
   return (
     <Typography
@@ -56,7 +56,7 @@ export default function SignUp(props) {
   const [authform, setAuthForm] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isDone, setIsDone] = useState(false);
-    const [checkEmail, setcheckEmail] = useState(false);
+  const [checkEmail, setcheckEmail] = useState(false);
   const [errors, setErrors] = useState([]);
   const [showPassword, setshowPassword] = useState(false);
 
@@ -110,7 +110,7 @@ export default function SignUp(props) {
       setIsDone(true);
       console.log(res.data);
       handleClick();
-      setcheckEmail(true)
+      setcheckEmail(true);
     } catch (err) {
       setIsDone(false);
       setIsLoading(false);
@@ -132,32 +132,22 @@ export default function SignUp(props) {
                 alignItems: "center",
               }}
             >
-              <SocialIcon
-                sx={{ size: "medium" }}
-                url="https://mail.google.com/"
-              />
-            </Box>
-             <Box
-              sx={{
-                marginTop: 5,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
+              <Typography
+                sx={{
+                  fontSize: 30,
+                  marginTop: 2,
+                }}
+              >
+                Activate your account
+              </Typography>
+              <Typography>Click here if you are using gmail!</Typography>
 
-              <ArrowUpwardIcon />
+              <ArrowDownwardIcon sx={{ marginBottom: 3, size: "medium" }} />
+              <SocialIcon url="https://mail.google.com/" />
+              <Link sx={{marginTop:5}} href="/login" variant="body2">
+                Back To LogIn{" "}
+              </Link>
             </Box>
-            <Typography
-              sx={{
-                marginTop: 2,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              Check your email to activate your account
-            </Typography>
           </>
         ) : (
           <Container component="main" maxWidth="xs">
@@ -194,6 +184,8 @@ export default function SignUp(props) {
                       value={userForm.username}
                       required
                       fullWidth
+                      error={errors.username}
+                      helperText={errors.username ? `${errors.username}` : ""}
                       id="username"
                       label="username"
                       autoFocus
@@ -263,7 +255,7 @@ export default function SignUp(props) {
                           ? `${errors.non_field_errors}`
                           : ""
                       }
-                      error={errors.non_field_errors}
+                      error={errors.non_field_errors || errors.re_password}
                       required
                       fullWidth
                       name="password"
@@ -290,14 +282,26 @@ export default function SignUp(props) {
                     />
                   </Grid>
                 </Grid>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  Sign Up
-                </Button>
+                {isLoading ? (
+                  <LoadingButton
+                    fullWidth
+                    loading
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Sign Up
+                  </LoadingButton>
+                ) : (
+                  <Button
+                    type="submit"
+                    fullWidth
+                    onClick={handleSubmit}
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Sign Up
+                  </Button>
+                )}
                 <Grid container justifyContent="flex-end">
                   <Grid item>
                     <Link href="/login" variant="body2">

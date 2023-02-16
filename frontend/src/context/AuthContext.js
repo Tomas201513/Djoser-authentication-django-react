@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
   );
   const [loading, setLoading] = useState(true);
 
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   const loginUser = async (email, password) => {
     const response = await fetch("http://127.0.0.1:8000/auth/jwt/create", {
@@ -36,13 +36,15 @@ export const AuthProvider = ({ children }) => {
 
     if (response.status === 200) {
       setAuthTokens(data);
+      setLoading(false);
       setUser(jwt_decode(data.access));
       localStorage.setItem("authTokens", JSON.stringify(data));
-      history("/");
+      navigate("/");
     } else {
       alert("Something went wrong!");
+      setLoading(false);
     }
-  }; 
+  };
 
   const registerUser = async (username, email, password, re_password) => {
     const response = await fetch("http://127.0.0.1:8000/auth/users/", {
@@ -58,7 +60,7 @@ export const AuthProvider = ({ children }) => {
       }),
     });
     if (response.status === 201) {
-      history("/login");
+      navigate("/login");
     } else {
       alert("Something went wrong!");
     }
@@ -68,7 +70,7 @@ export const AuthProvider = ({ children }) => {
     setAuthTokens(null);
     setUser(null);
     localStorage.removeItem("authTokens");
-    history("/login");
+    navigate("/login");
   };
 
   const contextData = {
@@ -79,6 +81,7 @@ export const AuthProvider = ({ children }) => {
     registerUser,
     loginUser,
     logoutUser,
+    loading,
   };
 
   useEffect(() => {
