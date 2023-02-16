@@ -21,14 +21,11 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import IconButton from "@mui/material/IconButton";
 import { useSnackbar } from "notistack";
 import { SocialIcon } from "react-social-icons";
-<<<<<<< HEAD
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
  import { useFormik } from "formik";
 
-=======
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { LoadingButton } from "@mui/lab";
->>>>>>> 9efaf66b95111b182e2fa3cd0974f22fdfd05349
 function Copyright(props) {
   return (
     <Typography
