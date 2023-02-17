@@ -1,9 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar, GridEventListener } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 import { IconButton } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import Alert from "@mui/material/Alert";
+
 import axios from "axios";
 
 function Crud() {
@@ -12,11 +14,17 @@ function Crud() {
   const [rows, setRows] = useState();
   const [deletedRows, setDeletedRows] = useState([]);
   const [customers, setCustomers] = React.useState([]);
+  const [message, setMessage] = useState([]);
+  const [messagee, setMessagee] = useState([]);
+  const [checkboxSelection, setCheckboxSelection] = useState(true);
+
+  const [posts, setPosts] = useState([]);
 
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "name", headerName: "Name", flex: 0.5 },
-    { field: "description", headerName: "Description" },
+    // { field: "types", headerName: "Name", flex: 0.5 },
+    { field: "description", headerName: "Description", flex: 0.5 },
+
     // {
     //   field: "action",
     //   headerName: "Action",
@@ -24,7 +32,8 @@ function Crud() {
     //   renderCell: ({ row }) => (
     //     <IconButton
     //       onClick={(e) => {
-    //         handleDelete(row);
+    //         handleDelete(row.id);
+    //         console.log(row.id);
     //       }}
     //     >
     //       <DeleteOutlineIcon />
@@ -33,61 +42,73 @@ function Crud() {
     // },
   ];
 
-  const handleDelete = async (row) => {
-    const response = await fetch(
-      `http://127.0.0.1:8000/service/servicetype/${row.id}/`
-    ).then((response) => response.json());
-
-    // update the state
-    setUsers(response);
-    console.log(response);
+  const handleDelete = (params) => {
+    try {
+      axios
+        .delete(`http://127.0.0.1:8000/service/servicetype/${message}/`)
+        .then(() => {
+          const del = posts.filter((posts) => params.row.id !== posts.id);
+          setPosts(del);
+        });
+    } catch (e) {
+      console.log(e.response.status);
+      setMessagee(e.response.status);
+    }
   };
 
+  const handleRowClick = (params) => {
+    setMessage(params.row.id);
+  };
   // Function to collect data
   const getApiData = async () => {
-    const response = await fetch(
-      "http://127.0.0.1:8000/service/servicetype/"
-    ).then((response) => response.json());
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:8000/service/servicetype/"
+      ).then((response) => response.json());
 
-    // update the state
-    setUsers(response);
-    console.log(response);
+      // update the state
+      setUsers(response);
+      console.log(response);
+    } catch (e) {
+      console.log("tom unable to fetch data");
+    }
   };
 
   useEffect(() => {
     getApiData();
-  }, []);
+  }, [posts]);
 
   return (
     <Box m="20px">
       {" "}
-      <IconButton
-        onClick={(e) => {
-          console.log(rows);
-          // handleDelete(rows);
-        }}
-      >
+      <IconButton onClick={handleDelete}>
         <DeleteOutlineIcon />
       </IconButton>
+      {checkboxSelection ? (
+        <IconButton
+          sx={{ mb: 2 }}
+          onClick={() => setCheckboxSelection(!checkboxSelection)}
+        >
+          1
+        </IconButton>
+      ) : (
+        <IconButton
+          sx={{ mb: 2 }}
+          onClick={() => setCheckboxSelection(!checkboxSelection)}
+        >
+          0
+        </IconButton>
+      )}
+      {message && <Alert severity="info">{message}</Alert>}
+      {messagee && <Alert severity="info">{messagee}</Alert>}
       <Box m="40px 0 0 0" height="75vh">
         <DataGrid
-          editMode
-          pageSize="2"
-          paginationMode="server"
-          checkboxSelection
-          scrollbarSize="0"
           rows={users}
           columns={columns}
+          checkboxSelection={checkboxSelection}
           components={{ Toolbar: GridToolbar }}
           experimentalFeatures={{ newEditingApi: true }}
-          // onSelectionModelChange={({ selectionModel }) => {
-          //   const rowIds = selectionModel.map((rowId) =>
-          //     parseInt(String(rowId), 10)
-          //   );
-          //   const rowsToDelete = rows.filter((row) => rowIds.includes(row.id));
-          //   setDeletedRows(rowsToDelete);
-          // }}
-          // rows={rows}
+          onRowClick={handleRowClick}
         />
       </Box>
     </Box>

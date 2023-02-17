@@ -10,8 +10,9 @@ import SignUp from "./components/SignUp";
 import Authform from "./components/Authform";
 import { SnackbarProvider } from "notistack";
 import PrivateRoute from "./utils/PrivateRoute";
-import { CssBaseline } from "@mui/material";
-import Crud from "./pages/Crud";
+// import Tablee from "./pages/Tablee";
+import { CssBaseline, Table } from "@mui/material";
+// import Crud from "./pages/Crud";
 const App = () => {
   return (
     <>
@@ -35,11 +36,13 @@ const App = () => {
             />
             <Route path="*" element={<Error404 />} />
             <Route path="/" element={<PrivateRoute />}>
-              <Route path="/" element={<MiniDrawer />} >
-              <Route path="/table" element={<Crud />} />
-              <Route path="/form" element={<Form />} />
+              {/* <Route path="/tablee" element={<Tablee />} /> */}
+              <Route path="/" element={<MiniDrawer />}>
+                <Route path="/form" element={<Form />} />
+
+                {/* <Route path="/table" element={<Crud />} />  */}
               </Route>
-              </Route>
+            </Route>
           </Routes>
         </AuthProvider>
       </SnackbarProvider>
