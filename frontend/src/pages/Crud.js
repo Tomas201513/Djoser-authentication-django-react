@@ -9,23 +9,31 @@ import axios from "axios";
 function Crud() {
   // Store list of all users
   const [users, setUsers] = useState([]);
+  const [rows, setRows] = useState();
+  const [deletedRows, setDeletedRows] = useState([]);
+  const [customers, setCustomers] = React.useState([]);
+
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
     { field: "name", headerName: "Name", flex: 0.5 },
     { field: "description", headerName: "Description" },
-    {
-      field: "action",
-      headerName: "Action",
-      sortable: false,
-      renderCell: ({ row }) => (
-        <IconButton onClick={deleteRow(row)}>
-          <DeleteOutlineIcon />
-        </IconButton>
-      ),
-    },
+    // {
+    //   field: "action",
+    //   headerName: "Action",
+    //   sortable: false,
+    //   renderCell: ({ row }) => (
+    //     <IconButton
+    //       onClick={(e) => {
+    //         handleDelete(row);
+    //       }}
+    //     >
+    //       <DeleteOutlineIcon />
+    //     </IconButton>
+    //   ),
+    // },
   ];
 
-  const deleteRow = async (row) => {
+  const handleDelete = async (row) => {
     const response = await fetch(
       `http://127.0.0.1:8000/service/servicetype/${row.id}/`
     ).then((response) => response.json());
@@ -53,6 +61,14 @@ function Crud() {
   return (
     <Box m="20px">
       {" "}
+      <IconButton
+        onClick={(e) => {
+          console.log(rows);
+          // handleDelete(rows);
+        }}
+      >
+        <DeleteOutlineIcon />
+      </IconButton>
       <Box m="40px 0 0 0" height="75vh">
         <DataGrid
           editMode
@@ -63,6 +79,15 @@ function Crud() {
           rows={users}
           columns={columns}
           components={{ Toolbar: GridToolbar }}
+          experimentalFeatures={{ newEditingApi: true }}
+          // onSelectionModelChange={({ selectionModel }) => {
+          //   const rowIds = selectionModel.map((rowId) =>
+          //     parseInt(String(rowId), 10)
+          //   );
+          //   const rowsToDelete = rows.filter((row) => rowIds.includes(row.id));
+          //   setDeletedRows(rowsToDelete);
+          // }}
+          // rows={rows}
         />
       </Box>
     </Box>
